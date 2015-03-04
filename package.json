@@ -33,5 +33,5 @@
   "bugs": {
     "url": "http://github.com/jitsi/sdp-interop/issues"
   },
-  "license": "LGPL"
+  "license": "MIT"
 }
