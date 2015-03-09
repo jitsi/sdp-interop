@@ -23,7 +23,7 @@
     "coveralls": "npm run coverage | coveralls"
   },
   "dependencies": {
-      "sdp-transform": "https://github.com/gpolitis/sdp-transform/tarball/master"
+      "sdp-transform": "gpolitis/sdp-transform#dee32c867a"
   },
   "devDependencies": {
     "coveralls": "^2.11.1",
