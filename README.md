@@ -81,71 +81,72 @@ PeerConnection adapter...
 
 Here's a sample PeerConnection adapter:
 
-    function PeerConnectionAdapter(ice_config, constraints) {
-        var RTCPeerConnection = navigator.mozGetUserMedia
-          ? mozRTCPeerConnection : webkitRTCPeerConnection;
-        this.peerconnection = new RTCPeerConnection(ice_config, constraints);
-        this.interop = new require('sdp-interop').Interop();
-    }
+```javascript
+function PeerConnectionAdapter(ice_config, constraints) {
+    var RTCPeerConnection = navigator.mozGetUserMedia
+      ? mozRTCPeerConnection : webkitRTCPeerConnection;
+    this.peerconnection = new RTCPeerConnection(ice_config, constraints);
+    this.interop = new require('sdp-interop').Interop();
+}
 
-    PeerConnectionAdapter.prototype.setLocalDescription
-      = function (description, successCallback, failureCallback) {
-        // if we're running on FF, transform to Unified Plan first.
-        if (navigator.mozGetUserMedia)
-            description = this.interop.toUnifiedPlan(description);
+PeerConnectionAdapter.prototype.setLocalDescription
+  = function (description, successCallback, failureCallback) {
+    // if we're running on FF, transform to Unified Plan first.
+    if (navigator.mozGetUserMedia)
+        description = this.interop.toUnifiedPlan(description);
 
-        var self = this;
-        this.peerconnection.setLocalDescription(description,
-            function () { successCallback(); },
-            function (err) { failureCallback(err); }
-        );
-    };
+    var self = this;
+    this.peerconnection.setLocalDescription(description,
+        function () { successCallback(); },
+        function (err) { failureCallback(err); }
+    );
+};
 
-    PeerConnectionAdapter.prototype.setRemoteDescription
-      = function (description, successCallback, failureCallback) {
-        // if we're running on FF, transform to Unified Plan first.
-        if (navigator.mozGetUserMedia)
-            description = this.interop.toUnifiedPlan(description);
+PeerConnectionAdapter.prototype.setRemoteDescription
+  = function (description, successCallback, failureCallback) {
+    // if we're running on FF, transform to Unified Plan first.
+    if (navigator.mozGetUserMedia)
+        description = this.interop.toUnifiedPlan(description);
 
-        var self = this;
-        this.peerconnection.setRemoteDescription(description,
-            function () { successCallback(); },
-            function (err) { failureCallback(err); }
-        );
-    };
+    var self = this;
+    this.peerconnection.setRemoteDescription(description,
+        function () { successCallback(); },
+        function (err) { failureCallback(err); }
+    );
+};
 
-    PeerConnectionAdapter.prototype.createAnswer
-      = function (successCallback, failureCallback, constraints) {
-        var self = this;
-        this.peerconnection.createAnswer(
-            function (answer) {
-                if (navigator.mozGetUserMedia)
-                    answer = self.interop.toPlanB(answer);
-                successCallback(answer);
-            },
-            function(err) {
-                failureCallback(err);
-            },
-            constraints
-        );
-    };
+PeerConnectionAdapter.prototype.createAnswer
+  = function (successCallback, failureCallback, constraints) {
+    var self = this;
+    this.peerconnection.createAnswer(
+        function (answer) {
+            if (navigator.mozGetUserMedia)
+                answer = self.interop.toPlanB(answer);
+            successCallback(answer);
+        },
+        function(err) {
+            failureCallback(err);
+        },
+        constraints
+    );
+};
 
-    PeerConnectionAdapter.prototype.createOffer
-      = function (successCallback, failureCallback, constraints) {
-        var self = this;
-        this.peerconnection.createOffer(
-            function (offer) {
-                if (navigator.mozGetUserMedia)
-                    offer = self.interop.toPlanB(offer);
-                successCallback(offer);
-            },
-            function(err) {
-                failureCallback(err);
-            },
-            constraints
-        );
-    };
-
+PeerConnectionAdapter.prototype.createOffer
+  = function (successCallback, failureCallback, constraints) {
+    var self = this;
+    this.peerconnection.createOffer(
+        function (offer) {
+            if (navigator.mozGetUserMedia)
+                offer = self.interop.toPlanB(offer);
+            successCallback(offer);
+        },
+        function(err) {
+            failureCallback(err);
+        },
+        constraints
+    );
+};
+```
 
 ### Beyond the basics
 
