@@ -183,12 +183,12 @@ how we do this exactly.
 
 Another soft limitation (in the sense that it can be removed given enough
 effort) is that we require bundle and rtcp-mux for both Chrome and Firefox
-endpoints, so all the media whatever the channel is, go through a single port. This is tracked in Issue #3.
+endpoints, so all the media whatever the channel is, go through a single port. This is tracked in [issue #3](https://github.com/jitsi/sdp-interop/issues/3).
 
 One last soft limitation is that we have currently tested the interoperability
 layer only when Firefox answers a call and not when it offers one because in
 our architecture endpoints always get invited to join a call and never offer
-one. This is tracked in Issue #4.
+one. This is tracked in [issue #4](https://github.com/jitsi/sdp-interop/issues/4).
 
 ## Copyright notice
 
