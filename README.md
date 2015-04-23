@@ -40,6 +40,14 @@ a=ssrc lines are used to describe individual media sources within that
 envelope. So, typically, a Plan B SDP has three channels, one for audio, one
 for video and one for the data.
 
+### Installation
+
+Install locally from npm:
+
+```bash
+$ npm install sdp-interop
+```
+
 ## Implementation
 
 This module gives a general solution to the problem of SDP interoperability
