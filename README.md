@@ -52,8 +52,8 @@ to the application.
 
 sdp-interop is a reusable npm module that offers the two simple methods:
 
-* `toPlanA(sdp)` that takes an SDP string and transforms it into a Unified Plan
-  SDP.
+* `toUnifiedPlan(sdp)` that takes an SDP string and transforms it into a
+  Unified Plan SDP.
 * `toPlanB(sdp)` that, not surprisingly, takes an SDP string and transforms it
   to Plan B SDP.
 
@@ -63,8 +63,8 @@ The PeerConnection adapter wraps the `setLocalDescription()`,
 adapter does nothing. If, on the other hand, the browser is Firefox the
 PeerConnection adapter...
 
-* calls the `toPlanA()` method of the sdp-interop module prior to calling the
-  `setLocalDescription()` or the `setRemoteDescription()` methods, thus
+* calls the `toUnifiedPlan()` method of the sdp-interop module prior to calling
+  the `setLocalDescription()` or the `setRemoteDescription()` methods, thus
   converting the Plan B SDP from the application to a Unified Plan SDP that
   Firefox can understand.
 * calls the `toPlanB()` method prior to calling the `createAnswer()` or the
@@ -82,9 +82,9 @@ Here's a sample PeerConnection adapter:
 
     PeerConnectionAdapter.prototype.setLocalDescription
       = function (description, successCallback, failureCallback) {
-        // if we're running on FF, transform to Plan A first.
+        // if we're running on FF, transform to Unified Plan first.
         if (navigator.mozGetUserMedia)
-            description = this.interop.toPlanA(description);
+            description = this.interop.toUnifiedPlan(description);
 
         var self = this;
         this.peerconnection.setLocalDescription(description,
@@ -95,9 +95,9 @@ Here's a sample PeerConnection adapter:
 
     PeerConnectionAdapter.prototype.setRemoteDescription
       = function (description, successCallback, failureCallback) {
-        // if we're running on FF, transform to Plan A first.
+        // if we're running on FF, transform to Unified Plan first.
         if (navigator.mozGetUserMedia)
-            description = this.interop.toPlanA(description);
+            description = this.interop.toUnifiedPlan(description);
 
         var self = this;
         this.peerconnection.setRemoteDescription(description,
