@@ -1,6 +1,6 @@
 {
   "name": "sdp-interop",
-  "description": "A simple SDP interoperability layer for Plan A/Plan B",
+  "description": "A simple SDP interoperability layer for Unified Plan/Plan B",
   "author": {
     "name": "George Politis",
     "email": "gp@jitsi.org"
@@ -14,7 +14,8 @@
   "keywords": [
     "sdp",
     "webrtc",
-    "serializer"
+    "interoperability",
+    "polyfill"
   ],
   "main": "./lib/",
   "scripts": {
@@ -23,7 +24,7 @@
     "coveralls": "npm run coverage | coveralls"
   },
   "dependencies": {
-      "sdp-transform": "gpolitis/sdp-transform#dee32c867a"
+      "sdp-transform": "1.4.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.1",
