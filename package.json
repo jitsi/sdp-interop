@@ -24,7 +24,7 @@
     "coveralls": "npm run coverage | coveralls"
   },
   "dependencies": {
-      "sdp-transform": "1.4.0"
+      "sdp-transform": "1.4.*"
   },
   "devDependencies": {
     "coveralls": "^2.11.1",
