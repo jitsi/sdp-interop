@@ -385,3 +385,95 @@ a=rtcp-mux\r\n"
   assert.equal(unifiedPlanDesc.sdp, expectedUnifiedPlan,
     "Not expected Unified Plan output")
 });
+
+QUnit.test('sendonlyPlanB2UnifiedPlan', function (assert) {
+  /*jshint multistr: true */
+  var originPlanB =
+    "v=0\r\n\
+o=- 6352417452822806569 2 IN IP4 127.0.0.1\r\n\
+s=-\r\n\
+t=0 0\r\n\
+a=group:BUNDLE audio video\r\n\
+a=msid-semantic: WMS MS-0\r\n\
+m=audio 9 UDP/TLS/RTP/SAVPF 111\r\n\
+c=IN IP4 0.0.0.0\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
+a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
+a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
+a=setup:actpass\r\n\
+a=mid:audio\r\n\
+a=sendonly\r\n\
+a=rtcp-mux\r\n\
+a=rtpmap:111 opus/48000/2\r\n\
+a=ssrc:1001 cname:CN-0\r\n\
+a=ssrc:1001 msid:MS-0 MST-0_0\r\n\
+a=ssrc:1001 mslabel:MS-0\r\n\
+a=ssrc:1001 label:MST-0_0\r\n\
+m=video 9 UDP/TLS/RTP/SAVPF 100\r\n\
+c=IN IP4 0.0.0.0\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
+a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
+a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
+a=setup:actpass\r\n\
+a=mid:video\r\n\
+a=sendonly\r\n\
+a=rtcp-mux\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=ssrc-group:FID 2001\r\n\
+a=ssrc:2001 cname:CN-0\r\n\
+a=ssrc:2001 msid:MS-0 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
+a=ssrc:2001 mslabel:MS-0\r\n\
+a=ssrc:2001 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n"
+
+  /*jshint multistr: true */
+  var expectedUnifiedPlan =
+    "v=0\r\n\
+o=- 6352417452822806569 2 IN IP4 127.0.0.1\r\n\
+s=-\r\n\
+t=0 0\r\n\
+a=msid-semantic: WMS *\r\n\
+a=group:BUNDLE audio-1001 video-2001\r\n\
+m=audio 9 UDP/TLS/RTP/SAVPF 111\r\n\
+c=IN IP4 0.0.0.0\r\n\
+a=rtpmap:111 opus/48000/2\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=setup:actpass\r\n\
+a=mid:audio-1001\r\n\
+a=msid:MS-0 MST-0_0\r\n\
+a=sendonly\r\n\
+a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
+a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
+a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
+a=ssrc:1001 cname:CN-0\r\n\
+a=ssrc:1001 mslabel:MS-0\r\n\
+a=ssrc:1001 label:MST-0_0\r\n\
+a=rtcp-mux\r\n\
+m=video 9 UDP/TLS/RTP/SAVPF 100\r\n\
+c=IN IP4 0.0.0.0\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=setup:actpass\r\n\
+a=mid:video-2001\r\n\
+a=msid:MS-0 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
+a=sendonly\r\n\
+a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
+a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
+a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
+a=ssrc:2001 cname:CN-0\r\n\
+a=ssrc:2001 mslabel:MS-0\r\n\
+a=ssrc:2001 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n\
+a=rtcp-mux\r\n"
+
+  var interop = new Interop();
+
+  var offer = new RTCSessionDescription({
+    type: 'offer',
+    sdp: originPlanB
+  });
+
+  var unifiedPlanDesc = interop.toUnifiedPlan(offer);
+  assert.equal(unifiedPlanDesc.sdp, expectedUnifiedPlan,
+    "Not expected Unified Plan output")
+});
