@@ -12,6 +12,12 @@ global.RTCSessionDescription = function (desc) {
   this.sdp = desc.sdp;
 }
 
+global.RTCIceCandidate = function (cand) {
+  this.candidate = cand.candidate;
+  this.sdpMLineIndex = cand.sdpMLineIndex;
+  this.sdpMid = cand.sdpMid;
+}
+
 var dumpSDP = function (description) {
   if (typeof description === 'undefined' || description === null) {
     return '';
@@ -384,6 +390,70 @@ a=rtcp-mux\r\n"
   var unifiedPlanDesc = interop.toUnifiedPlan(offer);
   assert.equal(unifiedPlanDesc.sdp, expectedUnifiedPlan,
     "Not expected Unified Plan output")
+
+  /* #region Check Unified Plan candidates */
+  var candUnifiedPlan = new RTCIceCandidate ({
+    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
+    "sdpMLineIndex" : 0,
+    "sdpMid" : "audio-2998362345"
+  });
+  var candPlanB = interop.candidateToPlanB (candUnifiedPlan);
+  assert.equal(candPlanB.candidate, candUnifiedPlan.candidate, "candidate arg not matching");
+  assert.equal(candPlanB.sdpMid, "audio", "sdpMid arg not matching");
+  assert.equal(candPlanB.sdpMLineIndex, 0, "sdpMLineIndex arg not matching");
+
+  var candUnifiedPlan = new RTCIceCandidate ({
+    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
+    "sdpMLineIndex" : 1,
+    "sdpMid" : "audio-3393882360"
+  });
+  var candPlanB = interop.candidateToPlanB (candUnifiedPlan);
+  assert.equal(candPlanB.candidate, candUnifiedPlan.candidate, "candidate arg not matching");
+  assert.equal(candPlanB.sdpMid, "audio", "sdpMid arg not matching");
+  assert.equal(candPlanB.sdpMLineIndex, 0, "sdpMLineIndex arg not matching");
+
+  var candUnifiedPlan = new RTCIceCandidate ({
+    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
+    "sdpMLineIndex" : 2,
+    "sdpMid" : "video-624578865"
+  });
+  var candPlanB = interop.candidateToPlanB (candUnifiedPlan);
+  assert.equal(candPlanB.candidate, candUnifiedPlan.candidate, "candidate arg not matching");
+  assert.equal(candPlanB.sdpMid, "video", "sdpMid arg not matching");
+  assert.equal(candPlanB.sdpMLineIndex, 1, "sdpMLineIndex arg not matching");
+
+  var candUnifiedPlan = new RTCIceCandidate ({
+    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
+    "sdpMLineIndex" : 3,
+    "sdpMid" : "video-1733429841"
+  });
+  var candPlanB = interop.candidateToPlanB (candUnifiedPlan);
+  assert.equal(candPlanB.candidate, candUnifiedPlan.candidate, "candidate arg not matching");
+  assert.equal(candPlanB.sdpMid, "video", "sdpMid arg not matching");
+  assert.equal(candPlanB.sdpMLineIndex, 1, "sdpMLineIndex arg not matching");
+  /* #endregion */
+
+  /* #region Check Plan B candidates */
+  var candPlanB = new RTCIceCandidate ({
+    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
+    "sdpMLineIndex" : 0,
+    "sdpMid" : "audio"
+  });
+  var candUnifiedPlan = interop.candidateToUnifiedPlan (candPlanB);
+  assert.equal(candUnifiedPlan.candidate, candPlanB.candidate, "candidate arg not matching");
+  assert.equal(candUnifiedPlan.sdpMid, "audio", "sdpMid arg not matching");
+  assert.equal(candUnifiedPlan.sdpMLineIndex, 0, "sdpMLineIndex arg not matching");
+
+  var candPlanB = new RTCIceCandidate ({
+    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
+    "sdpMLineIndex" : 1,
+    "sdpMid" : "video"
+  });
+  var candUnifiedPlan = interop.candidateToUnifiedPlan (candPlanB);
+  assert.equal(candUnifiedPlan.candidate, candPlanB.candidate, "candidate arg not matching");
+  assert.equal(candUnifiedPlan.sdpMid, "video", "sdpMid arg not matching");
+  assert.equal(candUnifiedPlan.sdpMLineIndex, 2, "sdpMLineIndex arg not matching");
+  /* #endregion */
 });
 
 QUnit.test('sendonlyPlanB2UnifiedPlan', function (assert) {
