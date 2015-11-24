@@ -744,3 +744,218 @@ a=rtcp-mux\r\n"
   assert.equal(planBDesc.sdp, expectedPlanB,
     "Not expected Plan B output")
 });
+
+QUnit.test('answerChromePlanB2UnifiedPlan', function (assert) {
+  /*jshint multistr: true */
+  var originUnifiedPlan =
+    "v=0\r\n\
+o=- 3657363455 3657363455 IN IP4 0.0.0.0\r\n\
+s=Kurento Media Server\r\n\
+c=IN IP4 0.0.0.0\r\n\
+t=0 0\r\n\
+a=group:BUNDLE audio0 video0 video1\r\n\
+m=audio 1 RTP/SAVPF 96 0\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=rtpmap:96 opus/48000/2\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=rtcp-mux\r\n\
+a=ssrc:3563419008 cname:user3545937947@host-98980057\r\n\
+a=msid:ms 0\r\n\
+a=ssrc:3563419008 mslabel:ms\r\n\
+a=ssrc:3563419008 label:0\r\n\
+a=ice-ufrag:Cm5n\r\n\
+a=ice-pwd:n40sz+gvZaHn7jKWttb5qg\r\n\
+a=fingerprint:sha-256 BF:5F:83:8D:B3:40:21:95:46:FC:F5:C1:1E:F1:C9:C2:9D:F4:A8:90:A0:F9:7C:41:CD:60:91:A7:3D:0A:F3:99\r\n\
+a=mid:audio0\r\n\
+m=video 1 RTP/SAVPF 99\r\n\
+b=AS:2000\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=rtpmap:99 VP8/90000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=rtcp-mux\r\n\
+a=rtcp-fb:99 nack\r\n\
+a=rtcp-fb:99 nack pli\r\n\
+a=rtcp-fb:99 goog-remb\r\n\
+a=rtcp-fb:99 ccm fir\r\n\
+a=ssrc:593546241 cname:user3545937947@host-98980057\r\n\
+a=msid:ms 1\r\n\
+a=ssrc:593546241 mslabel:ms\r\n\
+a=ssrc:593546241 label:1\r\n\
+a=ice-ufrag:Cm5n\r\n\
+a=ice-pwd:n40sz+gvZaHn7jKWttb5qg\r\n\
+a=fingerprint:sha-256 BF:5F:83:8D:B3:40:21:95:46:FC:F5:C1:1E:F1:C9:C2:9D:F4:A8:90:A0:F9:7C:41:CD:60:91:A7:3D:0A:F3:99\r\n\
+a=mid:video0\r\n\
+m=video 1 RTP/SAVPF 101\r\n\
+b=AS:2000\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=rtpmap:101 VP8/90000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=rtcp-mux\r\n\
+a=rtcp-fb:101 nack\r\n\
+a=rtcp-fb:101 nack pli\r\n\
+a=rtcp-fb:101 goog-remb\r\n\
+a=rtcp-fb:101 ccm fir\r\n\
+a=ssrc:3172327889 cname:user3545937947@host-98980057\r\n\
+a=msid:ms 2\r\n\
+a=ssrc:3172327889 mslabel:ms\r\n\
+a=ssrc:3172327889 label:2\r\n\
+a=ice-ufrag:Cm5n\r\n\
+a=ice-pwd:n40sz+gvZaHn7jKWttb5qg\r\n\
+a=fingerprint:sha-256 BF:5F:83:8D:B3:40:21:95:46:FC:F5:C1:1E:F1:C9:C2:9D:F4:A8:90:A0:F9:7C:41:CD:60:91:A7:3D:0A:F3:99\r\n\
+a=mid:video1"
+
+  /*jshint multistr: true */
+  var expectedPlanB =
+    "v=0\r\n\
+o=- 3657363455 3657363455 IN IP4 0.0.0.0\r\n\
+s=Kurento Media Server\r\n\
+c=IN IP4 0.0.0.0\r\n\
+t=0 0\r\n\
+a=msid-semantic: WMS *\r\n\
+a=group:BUNDLE audio video\r\n\
+m=audio 1 RTP/SAVPF 96 0\r\n\
+a=rtpmap:96 opus/48000/2\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=mid:audio\r\n\
+a=ice-ufrag:Cm5n\r\n\
+a=ice-pwd:n40sz+gvZaHn7jKWttb5qg\r\n\
+a=fingerprint:sha-256 BF:5F:83:8D:B3:40:21:95:46:FC:F5:C1:1E:F1:C9:C2:9D:F4:A8:90:A0:F9:7C:41:CD:60:91:A7:3D:0A:F3:99\r\n\
+a=ssrc:3563419008 cname:user3545937947@host-98980057\r\n\
+a=ssrc:3563419008 mslabel:ms\r\n\
+a=ssrc:3563419008 label:0\r\n\
+a=ssrc:3563419008 msid:ms 0\r\n\
+a=rtcp-mux\r\n\
+m=video 1 RTP/SAVPF 99\r\n\
+b=AS:2000\r\n\
+a=rtpmap:99 VP8/90000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=rtcp-fb:99 nack\r\n\
+a=rtcp-fb:99 nack pli\r\n\
+a=rtcp-fb:99 goog-remb\r\n\
+a=rtcp-fb:99 ccm fir\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=mid:video\r\n\
+a=ice-ufrag:Cm5n\r\n\
+a=ice-pwd:n40sz+gvZaHn7jKWttb5qg\r\n\
+a=fingerprint:sha-256 BF:5F:83:8D:B3:40:21:95:46:FC:F5:C1:1E:F1:C9:C2:9D:F4:A8:90:A0:F9:7C:41:CD:60:91:A7:3D:0A:F3:99\r\n\
+a=ssrc:593546241 cname:user3545937947@host-98980057\r\n\
+a=ssrc:593546241 mslabel:ms\r\n\
+a=ssrc:593546241 label:1\r\n\
+a=ssrc:593546241 msid:ms 1\r\n\
+a=ssrc:3172327889 cname:user3545937947@host-98980057\r\n\
+a=ssrc:3172327889 mslabel:ms\r\n\
+a=ssrc:3172327889 label:2\r\n\
+a=ssrc:3172327889 msid:ms 2\r\n\
+a=rtcp-mux\r\n"
+
+  /*jshint multistr: true */
+  var originPlanB =
+    "v=0\r\n\
+o=- 590499500270831419 2 IN IP4 127.0.0.1\r\n\
+s=-\r\n\
+t=0 0\r\n\
+a=group:BUNDLE audio video\r\n\
+a=msid-semantic: WMS\r\n\
+m=audio 9 RTP/SAVPF 96 0\r\n\
+c=IN IP4 0.0.0.0\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=ice-ufrag:D/SIZC9xg+MActHq\r\n\
+a=ice-pwd:0AJ690SNxw0UHVNmIZDEBHQy\r\n\
+a=fingerprint:sha-256 D2:7A:84:32:AE:19:4A:C0:96:33:36:61:81:F2:BD:2C:57:9E:79:EE:56:5B:1D:19:37:E4:AC:ED:70:C8:79:72\r\n\
+a=setup:active\r\n\
+a=mid:audio\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=recvonly\r\n\
+a=rtcp-mux\r\n\
+a=rtpmap:96 opus/48000/2\r\n\
+a=fmtp:96 minptime=10; useinbandfec=1\r\n\
+a=rtpmap:0 PCMU/8000\r\n\
+a=maxptime:60\r\n\
+m=video 9 RTP/SAVPF 99\r\n\
+c=IN IP4 0.0.0.0\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=ice-ufrag:D/SIZC9xg+MActHq\r\n\
+a=ice-pwd:0AJ690SNxw0UHVNmIZDEBHQy\r\n\
+a=fingerprint:sha-256 D2:7A:84:32:AE:19:4A:C0:96:33:36:61:81:F2:BD:2C:57:9E:79:EE:56:5B:1D:19:37:E4:AC:ED:70:C8:79:72\r\n\
+a=setup:active\r\n\
+a=mid:video\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=recvonly\r\n\
+a=rtcp-mux\r\n\
+a=rtpmap:99 VP8/90000\r\n\
+a=rtcp-fb:99 ccm fir\r\n\
+a=rtcp-fb:99 nack\r\n\
+a=rtcp-fb:99 nack pli\r\n\
+a=rtcp-fb:99 goog-remb"
+
+  /*jshint multistr: true */
+  var expectedUnifiedPlan =
+    "v=0\r\n\
+o=- 590499500270831419 2 IN IP4 127.0.0.1\r\n\
+s=-\r\n\
+t=0 0\r\n\
+a=msid-semantic: WMS *\r\n\
+a=group:BUNDLE audio0 video0 video1\r\n\
+m=audio 1 RTP/SAVPF 96 0\r\n\
+a=rtpmap:96 opus/48000/2\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=mid:audio0\r\n\
+a=recvonly\r\n\
+a=ice-ufrag:D/SIZC9xg+MActHq\r\n\
+a=ice-pwd:0AJ690SNxw0UHVNmIZDEBHQy\r\n\
+a=fingerprint:sha-256 D2:7A:84:32:AE:19:4A:C0:96:33:36:61:81:F2:BD:2C:57:9E:79:EE:56:5B:1D:19:37:E4:AC:ED:70:C8:79:72\r\n\
+a=rtcp-mux\r\n\
+m=video 1 RTP/SAVPF 99\r\n\
+b=AS:2000\r\n\
+a=rtpmap:99 VP8/90000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=rtcp-fb:99 nack\r\n\
+a=rtcp-fb:99 nack pli\r\n\
+a=rtcp-fb:99 goog-remb\r\n\
+a=rtcp-fb:99 ccm fir\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=mid:video0\r\n\
+a=recvonly\r\n\
+a=ice-ufrag:D/SIZC9xg+MActHq\r\n\
+a=ice-pwd:0AJ690SNxw0UHVNmIZDEBHQy\r\n\
+a=fingerprint:sha-256 D2:7A:84:32:AE:19:4A:C0:96:33:36:61:81:F2:BD:2C:57:9E:79:EE:56:5B:1D:19:37:E4:AC:ED:70:C8:79:72\r\n\
+a=rtcp-mux\r\n\
+m=video 1 RTP/SAVPF 101\r\n\
+b=AS:2000\r\n\
+a=rtpmap:101 VP8/90000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=rtcp-fb:101 nack\r\n\
+a=rtcp-fb:101 nack pli\r\n\
+a=rtcp-fb:101 goog-remb\r\n\
+a=rtcp-fb:101 ccm fir\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=mid:video1\r\n\
+a=recvonly\r\n\
+a=ice-ufrag:D/SIZC9xg+MActHq\r\n\
+a=ice-pwd:0AJ690SNxw0UHVNmIZDEBHQy\r\n\
+a=fingerprint:sha-256 D2:7A:84:32:AE:19:4A:C0:96:33:36:61:81:F2:BD:2C:57:9E:79:EE:56:5B:1D:19:37:E4:AC:ED:70:C8:79:72\r\n\
+a=rtcp-mux\r\n"
+
+  var interop = new Interop();
+
+  var offer = new RTCSessionDescription({
+    type: 'offer',
+    sdp: originUnifiedPlan
+  });
+
+  var planBDesc = interop.toPlanB(offer);
+  assert.equal(planBDesc.sdp, expectedPlanB,
+    "Not expected Plan B output")
+
+  var answer = new RTCSessionDescription({
+    type: 'answer',
+    sdp: originPlanB
+  });
+
+  var unifiedPlanDesc = interop.toUnifiedPlan(answer);
+  console.log("unifiedPlanDesc: " + dumpSDP(unifiedPlanDesc));
+  assert.equal(unifiedPlanDesc.sdp, expectedUnifiedPlan,
+    "Not expected Unified Plan output")
+});
