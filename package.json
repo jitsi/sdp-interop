@@ -20,9 +20,11 @@
   "main": "./lib/",
   "scripts": {
     "test": "node test/sdp_interop.js",
-    "coverage": "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
+    "coverage":
+      "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
     "coveralls": "npm run coverage | coveralls",
-    "lint": "jshint ."
+    "lint": "./node_modules/.bin/jshint .",
+    "validate": "npm ls"
   },
   "dependencies": {
     "sdp-transform": "1.5.*"
@@ -30,6 +32,7 @@
   "devDependencies": {
     "coveralls": "^2.11.1",
     "jscoverage": "^0.5.5",
+    "jshint": "2.8.0",
     "precommit-hook": "^3.0.0",
     "qunit-cli": "^0.2.0"
   },

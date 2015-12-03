@@ -2,7 +2,7 @@
     // Refer to http://jshint.com/docs/options/ for an exhaustive list of options
     "asi": false, // true: Tolerate Automatic Semicolon Insertion (no semicolons)
     "expr": true, // true: Tolerate `ExpressionStatement` as Programs
-    "loopfunc": false, // true: Tolerate functions being defined in loops
+    "loopfunc": true, // true: Tolerate functions being defined in loops
     "curly": false, // true: Require {} for every new block or scope
     "evil": true, // true: Tolerate use of `eval` and `new Function()`
     "white": true,
