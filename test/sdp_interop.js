@@ -1,4 +1,5 @@
 var Interop = require('../').Interop;
+var fs = require('fs');
 
 if (typeof QUnit == 'undefined') {
   QUnit = require('qunit-cli');
