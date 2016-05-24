@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jitsi/sdp-interop.svg?branch=master)](https://travis-ci.org/jitsi/sdp-interop)
+
 ## Introduction
 
 (or _Unified Plan, Plan B and the answer to life, the universe and eveything!_)
