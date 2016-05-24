@@ -744,3 +744,38 @@ a=rtcp-mux\r\n"
   assert.equal(planBDesc.sdp, expectedPlanB,
     "Not expected Plan B output")
 });
+
+QUnit.test('2-way-jitsi', function (assert) {
+
+  var interop = new Interop();
+
+  var playbook = JSON.parse(fs.readFileSync("test/2-way-jitsi/playbook.json"));
+
+  for (var k = 0; k < playbook.length; k++) {
+    var point = playbook[k];
+
+    for (var i = 1; i < point.transformations.length; i++) {
+      var transformation = point.transformations[i];
+      var expected = transformation.sessionDescription;
+      if (expected == null)
+      {
+        continue;
+      }
+
+      var input = point.transformations[i-1].sessionDescription;
+      if (input == null)
+      {
+        continue;
+      }
+
+      if (transformation.name == "interop.toUnifiedPlan") {
+        var output = interop.toUnifiedPlan(input);
+        assert.equal(expected.sdp, output.sdp, k + "th " + point.name + " failed at " + i + "th transformation.");
+
+      } else if (transformation.name == "interop.toPlanB") {
+        var output = interop.toPlanB(input);
+        assert.equal(expected.sdp, output.sdp, k + "th " + point.name + " failed at " + i + "th transformation.");
+      }
+    };
+  };
+});
