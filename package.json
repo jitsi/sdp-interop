@@ -19,7 +19,7 @@
   ],
   "main": "./lib/",
   "scripts": {
-    "test": "node test/sdp_interop.js",
+    "test": "node $NODE_DEBUG_OPTION test/sdp_interop.js",
     "coverage":
       "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
     "coveralls": "npm run coverage | coveralls",
