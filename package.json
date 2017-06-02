@@ -20,14 +20,13 @@
   "main": "./lib/",
   "scripts": {
     "test": "node $NODE_DEBUG_OPTION test/sdp_interop.js",
-    "coverage":
-      "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
+    "coverage": "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
     "coveralls": "npm run coverage | coveralls",
     "lint": "./node_modules/.bin/jshint .",
     "validate": "npm ls"
   },
   "dependencies": {
-    "sdp-transform": "1.5.*"
+    "sdp-transform": "2.3.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.1",
@@ -36,7 +35,9 @@
     "precommit-hook": "^3.0.0",
     "qunit-cli": "^0.2.0"
   },
-  "pre-commit": ["lint"],
+  "pre-commit": [
+    "lint"
+  ],
   "bugs": {
     "url": "http://github.com/jitsi/sdp-interop/issues"
   },
