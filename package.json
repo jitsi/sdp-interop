@@ -27,7 +27,8 @@
     "validate": "npm ls"
   },
   "dependencies": {
-    "sdp-transform": "2.3.0"
+    "sdp-transform": "2.3.0",
+    "sdp-samples": "git://github.com/bbaldino/sdp-samples.git#v0.1.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.1",
@@ -38,8 +39,8 @@
     "browserify": "^13",
     "watchify": "*",
     "jasmine-core": "^2.2.0",
-    "karma": "^0.13.2",
-    "karma-chrome-launcher": "^0.2.0",
+    "karma": "1.7.0",
+    "karma-chrome-launcher": "2.2.0",
     "karma-jasmine": "*",
     "karma-browserify": "5.1.0"
   },
