@@ -19,8 +19,7 @@
   ],
   "main": "./lib/",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start karma.conf.js",
-    "legacy-test": "node $NODE_DEBUG_OPTION test/sdp_interop.js",
+    "test": "node $NODE_DEBUG_OPTION test/sdp_interop.js && ./node_modules/karma/bin/karma start karma.conf.js",
     "coverage":
       "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
     "coveralls": "npm run coverage | coveralls",
@@ -37,12 +36,12 @@
     "jshint": "2.8.0",
     "precommit-hook": "^3.0.0",
     "qunit-cli": "^0.2.0",
-    "browserify": "^13",
-    "watchify": "*",
-    "jasmine-core": "^2.2.0",
+    "browserify": "14.4.0",
+    "watchify": "3.9.0",
+    "jasmine-core": "2.2.0",
     "karma": "1.7.0",
     "karma-chrome-launcher": "2.2.0",
-    "karma-jasmine": "*",
+    "karma-jasmine": "1.1.0",
     "karma-browserify": "5.1.0"
   },
   "pre-commit": [

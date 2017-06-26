@@ -20,10 +20,14 @@ module.exports = function(config) {
       'browserify',
     ],
 
+    browserify: {
+        debug: true
+    },
 
     // list of files / patterns to load in the browser
     files: [
         './lib/**/*.js',
+        './lib/**/*.js.map',
         './lib/**/*.spec.js',
     ],
 
