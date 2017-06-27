@@ -17,6 +17,7 @@ module.exports = function(config) {
       'karma-browserify',
       'karma-jasmine',
       'karma-chrome-launcher',
+      'karma-phantomjs-launcher',
       'browserify',
     ],
 
@@ -56,6 +57,13 @@ module.exports = function(config) {
     // any file changes
     autoWatch: true,
 
+    customLaunchers: {
+        Chrome_travis_ci: {
+            base: 'Chrome',
+            flags: ['--no-sandbox']
+        }
+    },
+
     // start these browsers
     // available browser launchers: 
     // https://npmjs.org/browse/keyword/karma-launcher
@@ -66,6 +74,6 @@ module.exports = function(config) {
     singleRun: false,
   });
   if (process.env.TRAVIS) {
-      config.browsers = ['PhantomJS'];
+      config.browsers = ['Chrome_travis_ci'];
   }
 };
