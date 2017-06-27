@@ -19,21 +19,32 @@
   ],
   "main": "./lib/",
   "scripts": {
-    "test": "node $NODE_DEBUG_OPTION test/sdp_interop.js",
-    "coverage": "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
+    "test": "node $NODE_DEBUG_OPTION test/sdp_interop.js && ./node_modules/karma/bin/karma start karma.conf.js",
+    "coverage":
+      "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
     "coveralls": "npm run coverage | coveralls",
     "lint": "./node_modules/.bin/jshint .",
     "validate": "npm ls"
   },
   "dependencies": {
-    "sdp-transform": "2.3.0"
+    "sdp-transform": "2.3.0",
+    "sdp-samples": "git://github.com/bbaldino/sdp-samples.git#v0.1.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.1",
     "jscoverage": "^0.5.5",
     "jshint": "2.8.0",
     "precommit-hook": "^3.0.0",
-    "qunit-cli": "^0.2.0"
+    "qunit-cli": "^0.2.0",
+    "browserify": "14.4.0",
+    "watchify": "3.9.0",
+    "jasmine-core": "2.6.4",
+    "karma": "1.7.0",
+    "karma-chrome-launcher": "2.2.0",
+    "karma-phantomjs-launcher": "1.0.4",
+    "phantom": "4.0.4",
+    "karma-jasmine": "1.1.0",
+    "karma-browserify": "5.1.1"
   },
   "pre-commit": [
     "lint"
