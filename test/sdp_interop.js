@@ -1,4 +1,4 @@
-import Interop from '../lib/interop.js';
+import { Interop } from '../lib/interop.js';
 import fs from 'fs';
 import QUnit from 'qunit-cli';
 
@@ -7,12 +7,6 @@ QUnit.load()
 global.RTCSessionDescription = function (desc) {
   this.type = desc.type;
   this.sdp = desc.sdp;
-}
-
-global.RTCIceCandidate = function (cand) {
-  this.candidate = cand.candidate;
-  this.sdpMLineIndex = cand.sdpMLineIndex;
-  this.sdpMid = cand.sdpMid;
 }
 
 var dumpSDP = function (description) {
@@ -94,11 +88,11 @@ a=ssrc:1733429841 label:9203939c-25cf-4d60-82c2-d25b19350926"
   /*jshint multistr: true */
   var expectedUnifiedPlan =
     "v=0\r\n\
-o=- 6352417452822806569 2 IN IP4 127.0.0.1\r\n\
+o=- 6352417452822806569 3 IN IP4 127.0.0.1\r\n\
 s=-\r\n\
 t=0 0\r\n\
 a=msid-semantic: WMS *\r\n\
-a=group:BUNDLE audio-3393882360 video-1733429841\r\n\
+a=group:BUNDLE 0 1\r\n\
 m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
 c=IN IP4 0.0.0.0\r\n\
 a=rtpmap:111 opus/48000/2\r\n\
@@ -116,7 +110,7 @@ a=rtcp:9 IN IP4 0.0.0.0\r\n\
 a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\n\
 a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
 a=setup:actpass\r\n\
-a=mid:audio-3393882360\r\n\
+a=mid:0\r\n\
 a=msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 22345512-82de-4e55-b205-967e0249e8e0\r\n\
 a=maxptime:60\r\n\
 a=sendrecv\r\n\
@@ -124,6 +118,7 @@ a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
 a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
 a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
 a=ssrc:3393882360 cname:5YcASuDc3X86mu+d\r\n\
+a=ssrc:3393882360 msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 22345512-82de-4e55-b205-967e0249e8e0\r\n\
 a=ssrc:3393882360 mslabel:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c\r\n\
 a=ssrc:3393882360 label:22345512-82de-4e55-b205-967e0249e8e0\r\n\
 a=rtcp-mux\r\n\
@@ -143,20 +138,22 @@ a=extmap:2 urn:ietf:params:rtp-hdrext:toffset\r\n\
 a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
 a=extmap:4 urn:3gpp:video-orientation\r\n\
 a=setup:actpass\r\n\
-a=mid:video-1733429841\r\n\
+a=mid:1\r\n\
 a=msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=sendrecv\r\n\
 a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
 a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
 a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
-a=ssrc:1733429841 cname:5YcASuDc3X86mu+d\r\n\
-a=ssrc:1733429841 mslabel:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c\r\n\
-a=ssrc:1733429841 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=ssrc:2560713622 cname:5YcASuDc3X86mu+d\r\n\
+a=ssrc:2560713622 msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=ssrc:2560713622 mslabel:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c\r\n\
 a=ssrc:2560713622 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n\
+a=ssrc:1733429841 cname:5YcASuDc3X86mu+d\r\n\
+a=ssrc:1733429841 msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
+a=ssrc:1733429841 mslabel:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c\r\n\
+a=ssrc:1733429841 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=ssrc-group:FID 2560713622 1733429841\r\n\
-a=rtcp-mux\r\n"
+a=rtcp-mux\r\n";
 
   var interop = new Interop();
 
@@ -255,11 +252,11 @@ a=ssrc:624578865 label:6f961540-d5ee-46da-a5b7-b42b97211905"
   /*jshint multistr: true */
   var expectedUnifiedPlan =
     "v=0\r\n\
-o=- 6352417452822806569 2 IN IP4 127.0.0.1\r\n\
+o=- 6352417452822806569 3 IN IP4 127.0.0.1\r\n\
 s=-\r\n\
 t=0 0\r\n\
 a=msid-semantic: WMS *\r\n\
-a=group:BUNDLE audio-2998362345 audio-3393882360 video-624578865 video-1733429841\r\n\
+a=group:BUNDLE 0 1 2 3\r\n\
 m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
 c=IN IP4 0.0.0.0\r\n\
 a=rtpmap:111 opus/48000/2\r\n\
@@ -277,35 +274,7 @@ a=rtcp:9 IN IP4 0.0.0.0\r\n\
 a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\n\
 a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
 a=setup:actpass\r\n\
-a=mid:audio-2998362345\r\n\
-a=msid:0ec45b31-e98d-49fa-b695-7631e004843a 96a45cea-7b24-401f-b12b-92bead3bf181\r\n\
-a=maxptime:60\r\n\
-a=sendrecv\r\n\
-a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
-a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
-a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
-a=ssrc:2998362345 cname:XvUdN+mQ3KWuNJNu\r\n\
-a=ssrc:2998362345 mslabel:0ec45b31-e98d-49fa-b695-7631e004843a\r\n\
-a=ssrc:2998362345 label:96a45cea-7b24-401f-b12b-92bead3bf181\r\n\
-a=rtcp-mux\r\n\
-m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
-c=IN IP4 0.0.0.0\r\n\
-a=rtpmap:111 opus/48000/2\r\n\
-a=rtpmap:103 ISAC/16000\r\n\
-a=rtpmap:104 ISAC/32000\r\n\
-a=rtpmap:9 G722/8000\r\n\
-a=rtpmap:0 PCMU/8000\r\n\
-a=rtpmap:8 PCMA/8000\r\n\
-a=rtpmap:106 CN/32000\r\n\
-a=rtpmap:105 CN/16000\r\n\
-a=rtpmap:13 CN/8000\r\n\
-a=rtpmap:126 telephone-event/8000\r\n\
-a=fmtp:111 minptime=10; useinbandfec=1\r\n\
-a=rtcp:9 IN IP4 0.0.0.0\r\n\
-a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\n\
-a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
-a=setup:actpass\r\n\
-a=mid:audio-3393882360\r\n\
+a=mid:0\r\n\
 a=msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 22345512-82de-4e55-b205-967e0249e8e0\r\n\
 a=maxptime:60\r\n\
 a=sendrecv\r\n\
@@ -313,38 +282,38 @@ a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
 a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
 a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
 a=ssrc:3393882360 cname:5YcASuDc3X86mu+d\r\n\
+a=ssrc:3393882360 msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 22345512-82de-4e55-b205-967e0249e8e0\r\n\
 a=ssrc:3393882360 mslabel:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c\r\n\
 a=ssrc:3393882360 label:22345512-82de-4e55-b205-967e0249e8e0\r\n\
 a=rtcp-mux\r\n\
-m=video 9 UDP/TLS/RTP/SAVPF 100 116 117 96\r\n\
+m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
 c=IN IP4 0.0.0.0\r\n\
-a=rtpmap:100 VP8/90000\r\n\
-a=rtpmap:116 red/90000\r\n\
-a=rtpmap:117 ulpfec/90000\r\n\
-a=rtpmap:96 rtx/90000\r\n\
-a=fmtp:96 apt=100\r\n\
+a=rtpmap:111 opus/48000/2\r\n\
+a=rtpmap:103 ISAC/16000\r\n\
+a=rtpmap:104 ISAC/32000\r\n\
+a=rtpmap:9 G722/8000\r\n\
+a=rtpmap:0 PCMU/8000\r\n\
+a=rtpmap:8 PCMA/8000\r\n\
+a=rtpmap:106 CN/32000\r\n\
+a=rtpmap:105 CN/16000\r\n\
+a=rtpmap:13 CN/8000\r\n\
+a=rtpmap:126 telephone-event/8000\r\n\
+a=fmtp:111 minptime=10; useinbandfec=1\r\n\
 a=rtcp:9 IN IP4 0.0.0.0\r\n\
-a=rtcp-fb:100 ccm fir\r\n\
-a=rtcp-fb:100 nack\r\n\
-a=rtcp-fb:100 nack pli\r\n\
-a=rtcp-fb:100 goog-remb\r\n\
-a=extmap:2 urn:ietf:params:rtp-hdrext:toffset\r\n\
+a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\n\
 a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
-a=extmap:4 urn:3gpp:video-orientation\r\n\
 a=setup:actpass\r\n\
-a=mid:video-624578865\r\n\
-a=msid:0ec45b31-e98d-49fa-b695-7631e004843a 6f961540-d5ee-46da-a5b7-b42b97211905\r\n\
-a=sendrecv\r\n\
+a=mid:1\r\n\
+a=msid:0ec45b31-e98d-49fa-b695-7631e004843a 96a45cea-7b24-401f-b12b-92bead3bf181\r\n\
+a=maxptime:60\r\n\
+a=sendonly\r\n\
 a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
 a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
 a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
-a=ssrc:624578865 cname:XvUdN+mQ3KWuNJNu\r\n\
-a=ssrc:624578865 mslabel:0ec45b31-e98d-49fa-b695-7631e004843a\r\n\
-a=ssrc:624578865 label:6f961540-d5ee-46da-a5b7-b42b97211905\r\n\
-a=ssrc:3792658351 cname:XvUdN+mQ3KWuNJNu\r\n\
-a=ssrc:3792658351 mslabel:0ec45b31-e98d-49fa-b695-7631e004843a\r\n\
-a=ssrc:3792658351 label:6f961540-d5ee-46da-a5b7-b42b97211905\r\n\
-a=ssrc-group:FID 3792658351 624578865\r\n\
+a=ssrc:2998362345 cname:XvUdN+mQ3KWuNJNu\r\n\
+a=ssrc:2998362345 msid:0ec45b31-e98d-49fa-b695-7631e004843a 96a45cea-7b24-401f-b12b-92bead3bf181\r\n\
+a=ssrc:2998362345 mslabel:0ec45b31-e98d-49fa-b695-7631e004843a\r\n\
+a=ssrc:2998362345 label:96a45cea-7b24-401f-b12b-92bead3bf181\r\n\
 a=rtcp-mux\r\n\
 m=video 9 UDP/TLS/RTP/SAVPF 100 116 117 96\r\n\
 c=IN IP4 0.0.0.0\r\n\
@@ -362,19 +331,53 @@ a=extmap:2 urn:ietf:params:rtp-hdrext:toffset\r\n\
 a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
 a=extmap:4 urn:3gpp:video-orientation\r\n\
 a=setup:actpass\r\n\
-a=mid:video-1733429841\r\n\
+a=mid:2\r\n\
 a=msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=sendrecv\r\n\
 a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
 a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
 a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
-a=ssrc:1733429841 cname:5YcASuDc3X86mu+d\r\n\
-a=ssrc:1733429841 mslabel:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c\r\n\
-a=ssrc:1733429841 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=ssrc:2560713622 cname:5YcASuDc3X86mu+d\r\n\
+a=ssrc:2560713622 msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=ssrc:2560713622 mslabel:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c\r\n\
 a=ssrc:2560713622 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n\
+a=ssrc:1733429841 cname:5YcASuDc3X86mu+d\r\n\
+a=ssrc:1733429841 msid:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
+a=ssrc:1733429841 mslabel:nnnwYrPTpGmyoJX5GFHMVv42y1ZthbnCx26c\r\n\
+a=ssrc:1733429841 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=ssrc-group:FID 2560713622 1733429841\r\n\
+a=rtcp-mux\r\n\
+m=video 9 UDP/TLS/RTP/SAVPF 100 116 117 96\r\n\
+c=IN IP4 0.0.0.0\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtpmap:116 red/90000\r\n\
+a=rtpmap:117 ulpfec/90000\r\n\
+a=rtpmap:96 rtx/90000\r\n\
+a=fmtp:96 apt=100\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=rtcp-fb:100 ccm fir\r\n\
+a=rtcp-fb:100 nack\r\n\
+a=rtcp-fb:100 nack pli\r\n\
+a=rtcp-fb:100 goog-remb\r\n\
+a=extmap:2 urn:ietf:params:rtp-hdrext:toffset\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=extmap:4 urn:3gpp:video-orientation\r\n\
+a=setup:actpass\r\n\
+a=mid:3\r\n\
+a=msid:0ec45b31-e98d-49fa-b695-7631e004843a 6f961540-d5ee-46da-a5b7-b42b97211905\r\n\
+a=sendonly\r\n\
+a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
+a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
+a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
+a=ssrc:3792658351 cname:XvUdN+mQ3KWuNJNu\r\n\
+a=ssrc:3792658351 msid:0ec45b31-e98d-49fa-b695-7631e004843a 6f961540-d5ee-46da-a5b7-b42b97211905\r\n\
+a=ssrc:3792658351 mslabel:0ec45b31-e98d-49fa-b695-7631e004843a\r\n\
+a=ssrc:3792658351 label:6f961540-d5ee-46da-a5b7-b42b97211905\r\n\
+a=ssrc:624578865 cname:XvUdN+mQ3KWuNJNu\r\n\
+a=ssrc:624578865 msid:0ec45b31-e98d-49fa-b695-7631e004843a 6f961540-d5ee-46da-a5b7-b42b97211905\r\n\
+a=ssrc:624578865 mslabel:0ec45b31-e98d-49fa-b695-7631e004843a\r\n\
+a=ssrc:624578865 label:6f961540-d5ee-46da-a5b7-b42b97211905\r\n\
+a=ssrc-group:FID 3792658351 624578865\r\n\
 a=rtcp-mux\r\n"
 
   var interop = new Interop();
@@ -387,70 +390,6 @@ a=rtcp-mux\r\n"
   var unifiedPlanDesc = interop.toUnifiedPlan(offer);
   assert.equal(unifiedPlanDesc.sdp, expectedUnifiedPlan,
     "Not expected Unified Plan output")
-
-  /* #region Check Unified Plan candidates */
-  var candUnifiedPlan = new RTCIceCandidate ({
-    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
-    "sdpMLineIndex" : 0,
-    "sdpMid" : "audio-2998362345"
-  });
-  var candPlanB = interop.candidateToPlanB (candUnifiedPlan);
-  assert.equal(candPlanB.candidate, candUnifiedPlan.candidate, "candidate arg not matching");
-  assert.equal(candPlanB.sdpMid, "audio", "sdpMid arg not matching");
-  assert.equal(candPlanB.sdpMLineIndex, 0, "sdpMLineIndex arg not matching");
-
-  var candUnifiedPlan = new RTCIceCandidate ({
-    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
-    "sdpMLineIndex" : 1,
-    "sdpMid" : "audio-3393882360"
-  });
-  var candPlanB = interop.candidateToPlanB (candUnifiedPlan);
-  assert.equal(candPlanB.candidate, candUnifiedPlan.candidate, "candidate arg not matching");
-  assert.equal(candPlanB.sdpMid, "audio", "sdpMid arg not matching");
-  assert.equal(candPlanB.sdpMLineIndex, 0, "sdpMLineIndex arg not matching");
-
-  var candUnifiedPlan = new RTCIceCandidate ({
-    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
-    "sdpMLineIndex" : 2,
-    "sdpMid" : "video-624578865"
-  });
-  var candPlanB = interop.candidateToPlanB (candUnifiedPlan);
-  assert.equal(candPlanB.candidate, candUnifiedPlan.candidate, "candidate arg not matching");
-  assert.equal(candPlanB.sdpMid, "video", "sdpMid arg not matching");
-  assert.equal(candPlanB.sdpMLineIndex, 1, "sdpMLineIndex arg not matching");
-
-  var candUnifiedPlan = new RTCIceCandidate ({
-    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
-    "sdpMLineIndex" : 3,
-    "sdpMid" : "video-1733429841"
-  });
-  var candPlanB = interop.candidateToPlanB (candUnifiedPlan);
-  assert.equal(candPlanB.candidate, candUnifiedPlan.candidate, "candidate arg not matching");
-  assert.equal(candPlanB.sdpMid, "video", "sdpMid arg not matching");
-  assert.equal(candPlanB.sdpMLineIndex, 1, "sdpMLineIndex arg not matching");
-  /* #endregion */
-
-  /* #region Check Plan B candidates */
-  var candPlanB = new RTCIceCandidate ({
-    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
-    "sdpMLineIndex" : 0,
-    "sdpMid" : "audio"
-  });
-  var candUnifiedPlan = interop.candidateToUnifiedPlan (candPlanB);
-  assert.equal(candUnifiedPlan.candidate, candPlanB.candidate, "candidate arg not matching");
-  assert.equal(candUnifiedPlan.sdpMid, "audio", "sdpMid arg not matching");
-  assert.equal(candUnifiedPlan.sdpMLineIndex, 0, "sdpMLineIndex arg not matching");
-
-  var candPlanB = new RTCIceCandidate ({
-    "candidate" : "candidate:11111111 1 udp 22222222 10.0.0.1 2345 typ host generation 0",
-    "sdpMLineIndex" : 1,
-    "sdpMid" : "video"
-  });
-  var candUnifiedPlan = interop.candidateToUnifiedPlan (candPlanB);
-  assert.equal(candUnifiedPlan.candidate, candPlanB.candidate, "candidate arg not matching");
-  assert.equal(candUnifiedPlan.sdpMid, "video", "sdpMid arg not matching");
-  assert.equal(candUnifiedPlan.sdpMLineIndex, 2, "sdpMLineIndex arg not matching");
-  /* #endregion */
 });
 
 QUnit.test('sendonlyPlanB2UnifiedPlan', function (assert) {
@@ -497,23 +436,24 @@ a=ssrc:2001 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n"
   /*jshint multistr: true */
   var expectedUnifiedPlan =
     "v=0\r\n\
-o=- 6352417452822806569 2 IN IP4 127.0.0.1\r\n\
+o=- 6352417452822806569 3 IN IP4 127.0.0.1\r\n\
 s=-\r\n\
 t=0 0\r\n\
 a=msid-semantic: WMS *\r\n\
-a=group:BUNDLE audio-1001 video-2001\r\n\
+a=group:BUNDLE 0 1\r\n\
 m=audio 9 UDP/TLS/RTP/SAVPF 111\r\n\
 c=IN IP4 0.0.0.0\r\n\
 a=rtpmap:111 opus/48000/2\r\n\
 a=rtcp:9 IN IP4 0.0.0.0\r\n\
 a=setup:actpass\r\n\
-a=mid:audio-1001\r\n\
+a=mid:0\r\n\
 a=msid:MS-0 MST-0_0\r\n\
 a=sendonly\r\n\
 a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
 a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
 a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
 a=ssrc:1001 cname:CN-0\r\n\
+a=ssrc:1001 msid:MS-0 MST-0_0\r\n\
 a=ssrc:1001 mslabel:MS-0\r\n\
 a=ssrc:1001 label:MST-0_0\r\n\
 a=rtcp-mux\r\n\
@@ -522,13 +462,14 @@ c=IN IP4 0.0.0.0\r\n\
 a=rtpmap:100 VP8/90000\r\n\
 a=rtcp:9 IN IP4 0.0.0.0\r\n\
 a=setup:actpass\r\n\
-a=mid:video-2001\r\n\
+a=mid:1\r\n\
 a=msid:MS-0 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=sendonly\r\n\
 a=ice-ufrag:xHOGnBsKDPCmHB5t\r\n\
 a=ice-pwd:qpnbhhoyeTrypBkX5F1u338T\r\n\
 a=fingerprint:sha-256 58:E0:FE:56:6A:8C:5A:AD:71:5B:A0:52:47:27:60:66:27:53:EC:B6:F3:03:A8:4B:9B:30:28:62:29:49:C6:73\r\n\
 a=ssrc:2001 cname:CN-0\r\n\
+a=ssrc:2001 msid:MS-0 9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=ssrc:2001 mslabel:MS-0\r\n\
 a=ssrc:2001 label:9203939c-25cf-4d60-82c2-d25b19350926\r\n\
 a=rtcp-mux\r\n"
@@ -543,203 +484,6 @@ a=rtcp-mux\r\n"
   var unifiedPlanDesc = interop.toUnifiedPlan(offer);
   assert.equal(unifiedPlanDesc.sdp, expectedUnifiedPlan,
     "Not expected Unified Plan output")
-});
-
-QUnit.test('audioInactiveUnifiedPlan2PlanB', function (assert) {
-  /*jshint multistr: true */
-  var originUnifiedPlan =
-    "v=0\r\n\
-o=- 3656853607 3656853607 IN IP4 0.0.0.0\r\n\
-s=Kurento Media Server\r\n\
-c=IN IP4 0.0.0.0\r\n\
-t=0 0\r\n\
-a=msid-semantic: WMS *\r\n\
-a=group:BUNDLE video-65477720 video-774581929\r\n\
-m=audio 0 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
-a=inactive\r\n\
-a=mid:audio-2331169307\r\n\
-m=audio 0 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
-a=inactive\r\n\
-a=mid:audio-3362868299\r\n\
-m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
-b=AS:2000\r\n\
-a=rtcp:9 IN IP4 0.0.0.0\r\n\
-a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
-a=rtpmap:100 VP8/90000\r\n\
-a=rtcp-fb:100 ccm fir\r\n\
-a=rtcp-fb:100 nack\r\n\
-a=rtcp-fb:100 nack pli\r\n\
-a=rtcp-fb:100 goog-remb\r\n\
-a=setup:active\r\n\
-a=mid:video-65477720\r\n\
-a=recvonly\r\n\
-a=rtcp-mux\r\n\
-a=ssrc:3850339357 cname:user1483941637@host-3c4150dc\r\n\
-a=ice-ufrag:l+rG\r\n\
-a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
-a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
-m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
-b=AS:2000\r\n\
-a=rtcp:9 IN IP4 0.0.0.0\r\n\
-a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
-a=rtpmap:100 VP8/90000\r\n\
-a=rtcp-fb:100 ccm fir\r\n\
-a=rtcp-fb:100 nack\r\n\
-a=rtcp-fb:100 nack pli\r\n\
-a=rtcp-fb:100 goog-remb\r\n\
-a=setup:active\r\n\
-a=mid:video-774581929\r\n\
-a=recvonly\r\n\
-a=rtcp-mux\r\n\
-a=ssrc:3423627266 cname:user1483941637@host-3c4150dc\r\n\
-a=ice-ufrag:l+rG\r\n\
-a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
-a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:FR3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n"
-
-  /*jshint multistr: true */
-  var expectedPlanB =
-    "v=0\r\n\
-o=- 3656853607 3656853607 IN IP4 0.0.0.0\r\n\
-s=Kurento Media Server\r\n\
-c=IN IP4 0.0.0.0\r\n\
-t=0 0\r\n\
-a=msid-semantic: WMS *\r\n\
-a=group:BUNDLE video\r\n\
-m=audio 0 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
-a=mid:audio\r\n\
-a=inactive\r\n\
-m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
-b=AS:2000\r\n\
-a=rtpmap:100 VP8/90000\r\n\
-a=rtcp:9 IN IP4 0.0.0.0\r\n\
-a=rtcp-fb:100 ccm fir\r\n\
-a=rtcp-fb:100 nack\r\n\
-a=rtcp-fb:100 nack pli\r\n\
-a=rtcp-fb:100 goog-remb\r\n\
-a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
-a=setup:active\r\n\
-a=mid:video\r\n\
-a=recvonly\r\n\
-a=ice-ufrag:l+rG\r\n\
-a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
-a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
-a=ssrc:3423627266 cname:user1483941637@host-3c4150dc\r\n\
-a=ssrc:3850339357 cname:user1483941637@host-3c4150dc\r\n\
-a=rtcp-mux\r\n"
-
-  var interop = new Interop();
-
-  var answer = new RTCSessionDescription({
-    type: 'answer',
-    sdp: originUnifiedPlan
-  });
-
-  var planBDesc = interop.toPlanB(answer);
-  assert.equal(planBDesc.sdp, expectedPlanB,
-    "Not expected Plan B output")
-});
-
-QUnit.test('1audio1videoInactivesUnifiedPlan2PlanB', function (assert) {
-  /*jshint multistr: true */
-  var originUnifiedPlan =
-    "v=0\r\n\
-o=- 3656853607 3656853607 IN IP4 0.0.0.0\r\n\
-s=Kurento Media Server\r\n\
-c=IN IP4 0.0.0.0\r\n\
-t=0 0\r\n\
-a=msid-semantic: WMS *\r\n\
-a=group:BUNDLE audio-3362868299 video-774581929\r\n\
-m=audio 0 UDP/TLS/RTP/SAVPF 111 0\r\n\
-a=inactive\r\n\
-a=mid:audio-2331169307\r\n\
-m=audio 1 UDP/TLS/RTP/SAVPF 111 0\r\n\
-a=rtcp:9 IN IP4 0.0.0.0\r\n\
-a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
-a=rtpmap:111 opus/48000/2\r\n\
-a=rtpmap:0 PCMU/8000\r\n\
-a=setup:active\r\n\
-a=mid:audio-3362868299\r\n\
-a=recvonly\r\n\
-a=rtcp-mux\r\n\
-a=fmtp:111 minptime=10; useinbandfec=1\r\n\
-a=maxptime:60\r\n\
-a=ssrc:4147269654 cname:user1483941637@host-3c4150dc\r\n\
-a=ice-ufrag:l+rG\r\n\
-a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
-a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
-m=video 1 UDP/TLS/RTP/SAVPF 100 116 117 96\r\n\
-a=inactive\r\n\
-a=mid:video-65477720\r\n\
-m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
-b=AS:2000\r\n\
-a=rtcp:9 IN IP4 0.0.0.0\r\n\
-a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
-a=rtpmap:100 VP8/90000\r\n\
-a=rtcp-fb:100 ccm fir\r\n\
-a=rtcp-fb:100 nack\r\n\
-a=rtcp-fb:100 nack pli\r\n\
-a=rtcp-fb:100 goog-remb\r\n\
-a=setup:active\r\n\
-a=mid:video-774581929\r\n\
-a=recvonly\r\n\
-a=rtcp-mux\r\n\
-a=ssrc:3423627266 cname:user1483941637@host-3c4150dc\r\n\
-a=ice-ufrag:l+rG\r\n\
-a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
-a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n"
-
-  /*jshint multistr: true */
-  var expectedPlanB =
-   "v=0\r\n\
-o=- 3656853607 3656853607 IN IP4 0.0.0.0\r\n\
-s=Kurento Media Server\r\n\
-c=IN IP4 0.0.0.0\r\n\
-t=0 0\r\n\
-a=msid-semantic: WMS *\r\n\
-a=group:BUNDLE audio video\r\n\
-m=audio 1 UDP/TLS/RTP/SAVPF 111 0\r\n\
-a=rtpmap:111 opus/48000/2\r\n\
-a=rtpmap:0 PCMU/8000\r\n\
-a=fmtp:111 minptime=10; useinbandfec=1\r\n\
-a=rtcp:9 IN IP4 0.0.0.0\r\n\
-a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
-a=setup:active\r\n\
-a=mid:audio\r\n\
-a=maxptime:60\r\n\
-a=recvonly\r\n\
-a=ice-ufrag:l+rG\r\n\
-a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
-a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
-a=ssrc:4147269654 cname:user1483941637@host-3c4150dc\r\n\
-a=rtcp-mux\r\n\
-m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
-b=AS:2000\r\n\
-a=rtpmap:100 VP8/90000\r\n\
-a=rtcp:9 IN IP4 0.0.0.0\r\n\
-a=rtcp-fb:100 ccm fir\r\n\
-a=rtcp-fb:100 nack\r\n\
-a=rtcp-fb:100 nack pli\r\n\
-a=rtcp-fb:100 goog-remb\r\n\
-a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
-a=setup:active\r\n\
-a=mid:video\r\n\
-a=recvonly\r\n\
-a=ice-ufrag:l+rG\r\n\
-a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
-a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
-a=ssrc:3423627266 cname:user1483941637@host-3c4150dc\r\n\
-a=rtcp-mux\r\n"
-
-  var interop = new Interop();
-
-  var answer = new RTCSessionDescription({
-    type: 'answer',
-    sdp: originUnifiedPlan
-  });
-
-  var planBDesc = interop.toPlanB(answer);
-  assert.equal(planBDesc.sdp, expectedPlanB,
-    "Not expected Plan B output")
 });
 
 QUnit.test('SafariUnifiedPlan2PlanB_1track', function (assert) {
@@ -910,14 +654,14 @@ a=ice-ufrag:2WGR\r\n\
 a=ice-pwd:Z4funjaI/Ehy5e7xxLlXN4/I\r\n\
 a=fingerprint:sha-256 37:84:76:D7:89:5C:5F:44:23:93:C3:8F:92:9F:A3:BB:C7:1E:DF:FB:F7:BF:78:26:E9:05:89:8D:5B:B0:C0:7C\r\n\
 a=ice-options:trickle\r\n\
-a=ssrc:624523265 cname:agmig8AM0fZtXKl0\r\n\
-a=ssrc:624523265 msid:5341c16e-abc0-4e8c-90ba-7b2d8b75daf3 8b39a943-fad1-47a0-92a8-3bf63fcb8c09\r\n\
-a=ssrc:624523265 mslabel:5341c16e-abc0-4e8c-90ba-7b2d8b75daf3\r\n\
-a=ssrc:624523265 label:8b39a943-fad1-47a0-92a8-3bf63fcb8c09\r\n\
 a=ssrc:2369716513 cname:agmig8AM0fZtXKl0\r\n\
 a=ssrc:2369716513 msid:5341c16e-abc0-4e8c-90ba-7b2d8b75daf3 8b39a943-fad1-47a0-92a8-3bf63fcb8c09\r\n\
 a=ssrc:2369716513 mslabel:5341c16e-abc0-4e8c-90ba-7b2d8b75daf3\r\n\
 a=ssrc:2369716513 label:8b39a943-fad1-47a0-92a8-3bf63fcb8c09\r\n\
+a=ssrc:624523265 cname:agmig8AM0fZtXKl0\r\n\
+a=ssrc:624523265 msid:5341c16e-abc0-4e8c-90ba-7b2d8b75daf3 8b39a943-fad1-47a0-92a8-3bf63fcb8c09\r\n\
+a=ssrc:624523265 mslabel:5341c16e-abc0-4e8c-90ba-7b2d8b75daf3\r\n\
+a=ssrc:624523265 label:8b39a943-fad1-47a0-92a8-3bf63fcb8c09\r\n\
 a=ssrc-group:FID 2369716513 624523265\r\n\
 a=rtcp-mux\r\n\
 a=rtcp-rsize\r\n\
@@ -1172,7 +916,8 @@ a=sctpmap:5000 webrtc-datachannel 1024\r\n";
     "Not expected Plan B output");
 });
 
-QUnit.test('3-way-jitsi', function (assert) {
+
+/*QUnit.test('3-way-jitsi', function (assert) {
 
   var interop = new Interop();
 
@@ -1239,4 +984,4 @@ QUnit.test('2-way-jitsi', function (assert) {
       }
     };
   };
-});
+});*/

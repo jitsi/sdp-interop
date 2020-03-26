@@ -2,7 +2,7 @@
   "name": "@jitsi/sdp-interop",
   "description": "A simple SDP interoperability layer for Unified Plan/Plan B",
   "author": "",
-  "version": "0.1.14",
+  "version": "1.0.0",
   "stability": "unstable",
   "repository": {
     "type": "git",
@@ -20,21 +20,29 @@
     "test": "node $NODE_DEBUG_OPTION --experimental-modules test/sdp_interop.js",
     "coverage": "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
     "coveralls": "npm run coverage | coveralls",
-    "lint": "jshint .",
+    "lint": "eslint .",
     "validate": "npm ls"
   },
   "dependencies": {
     "sdp-transform": "2.3.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "coveralls": "^3.0.11",
+    "eslint": "^6.8.0",
+    "eslint-config-jitsi": "github:jitsi/eslint-config-jitsi#1.0.0",
+    "eslint-plugin-flowtype": "^4.7.0",
+    "eslint-plugin-import": "^2.20.2",
     "jscoverage": "^0.6.0",
     "jshint": "2.11.0",
+    "lodash.clonedeep": "^4.5.0",
     "precommit-hook": "^3.0.0",
-    "qunit-cli": "^0.2.0"
+    "qunit-cli": "^0.2.0",
+    "watchify": "^3.11.1"
   },
   "pre-commit": [
-    "lint"
+    "lint",
+    "test"
   ],
   "bugs": {
     "url": "http://github.com/jitsi/sdp-interop/issues"
