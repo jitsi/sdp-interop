@@ -1,12 +1,8 @@
-var Interop = require('../').Interop;
-var fs = require('fs');
+import Interop from '../lib/interop.js';
+import fs from 'fs';
+import QUnit from 'qunit-cli';
 
-if (typeof QUnit == 'undefined') {
-  QUnit = require('qunit-cli');
-  QUnit.load();
-
-  interop = require('..');
-};
+QUnit.load()
 
 global.RTCSessionDescription = function (desc) {
   this.type = desc.type;

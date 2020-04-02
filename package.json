@@ -8,6 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/jitsi/sdp-interop.git"
   },
+  "type": "module",
   "keywords": [
     "sdp",
     "webrtc",
@@ -16,7 +17,7 @@
   ],
   "main": "./lib/",
   "scripts": {
-    "test": "node $NODE_DEBUG_OPTION test/sdp_interop.js",
+    "test": "node $NODE_DEBUG_OPTION --experimental-modules test/sdp_interop.js",
     "coverage": "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
     "coveralls": "npm run coverage | coveralls",
     "lint": "./node_modules/.bin/jshint .",
@@ -28,7 +29,7 @@
   "devDependencies": {
     "coveralls": "^2.11.1",
     "jscoverage": "^0.5.5",
-    "jshint": "2.8.0",
+    "jshint": "2.11.0",
     "precommit-hook": "^3.0.0",
     "qunit-cli": "^0.2.0"
   },
