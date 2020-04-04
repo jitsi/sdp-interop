@@ -486,6 +486,202 @@ a=rtcp-mux\r\n"
     "Not expected Unified Plan output")
 });
 
+QUnit.test('audioInactiveUnifiedPlan2PlanB', function (assert) {
+  /*jshint multistr: true */
+  var originUnifiedPlan =
+    "v=0\r\n\
+o=- 3656853607 3656853607 IN IP4 0.0.0.0\r\n\
+s=Kurento Media Server\r\n\
+c=IN IP4 0.0.0.0\r\n\
+t=0 0\r\n\
+a=msid-semantic: WMS *\r\n\
+a=group:BUNDLE 0 1 2 3\r\n\
+m=audio 0 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
+a=inactive\r\n\
+a=mid:0\r\n\
+m=audio 0 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
+a=inactive\r\n\
+a=mid:1\r\n\
+m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
+b=AS:2000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtcp-fb:100 ccm fir\r\n\
+a=rtcp-fb:100 nack\r\n\
+a=rtcp-fb:100 nack pli\r\n\
+a=rtcp-fb:100 goog-remb\r\n\
+a=setup:active\r\n\
+a=mid:2\r\n\
+a=recvonly\r\n\
+a=rtcp-mux\r\n\
+a=ssrc:3850339357 cname:user1483941637@host-3c4150dc\r\n\
+a=ice-ufrag:l+rG\r\n\
+a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
+a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
+m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
+b=AS:2000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtcp-fb:100 ccm fir\r\n\
+a=rtcp-fb:100 nack\r\n\
+a=rtcp-fb:100 nack pli\r\n\
+a=rtcp-fb:100 goog-remb\r\n\
+a=setup:active\r\n\
+a=mid:3\r\n\
+a=recvonly\r\n\
+a=rtcp-mux\r\n\
+a=ssrc:3423627266 cname:user1483941637@host-3c4150dc\r\n\
+a=ice-ufrag:l+rG\r\n\
+a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
+a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:FR3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n"
+
+  /*jshint multistr: true */
+  var expectedPlanB =
+    "v=0\r\n\
+o=- 3656853607 3656853607 IN IP4 0.0.0.0\r\n\
+s=Kurento Media Server\r\n\
+c=IN IP4 0.0.0.0\r\n\
+t=0 0\r\n\
+a=msid-semantic: WMS *\r\n\
+a=group:BUNDLE video\r\n\
+m=audio 0 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126\r\n\
+a=mid:audio\r\n\
+a=inactive\r\n\
+m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
+b=AS:2000\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=rtcp-fb:100 ccm fir\r\n\
+a=rtcp-fb:100 nack\r\n\
+a=rtcp-fb:100 nack pli\r\n\
+a=rtcp-fb:100 goog-remb\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=setup:active\r\n\
+a=mid:video\r\n\
+a=recvonly\r\n\
+a=ice-ufrag:l+rG\r\n\
+a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
+a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
+a=ssrc:3850339357 cname:user1483941637@host-3c4150dc\r\n\
+a=rtcp-mux\r\n"
+
+  var interop = new Interop();
+
+  var answer = new RTCSessionDescription({
+    type: 'answer',
+    sdp: originUnifiedPlan
+  });
+
+  var planBDesc = interop.toPlanB(answer);
+  assert.equal(planBDesc.sdp, expectedPlanB,
+    "Not expected Plan B output")
+});
+
+QUnit.test('1audio1videoInactivesUnifiedPlan2PlanB', function (assert) {
+  /*jshint multistr: true */
+  var originUnifiedPlan =
+    "v=0\r\n\
+o=- 3656853607 3656853607 IN IP4 0.0.0.0\r\n\
+s=Kurento Media Server\r\n\
+c=IN IP4 0.0.0.0\r\n\
+t=0 0\r\n\
+a=msid-semantic: WMS *\r\n\
+a=group:BUNDLE 0 1 2 3\r\n\
+m=audio 1 UDP/TLS/RTP/SAVPF 111 0\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=rtpmap:111 opus/48000/2\r\n\
+a=rtpmap:0 PCMU/8000\r\n\
+a=setup:active\r\n\
+a=mid:0\r\n\
+a=recvonly\r\n\
+a=rtcp-mux\r\n\
+a=fmtp:111 minptime=10; useinbandfec=1\r\n\
+a=maxptime:60\r\n\
+a=ssrc:4147269654 cname:user1483941637@host-3c4150dc\r\n\
+a=ice-ufrag:l+rG\r\n\
+a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
+a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
+m=audio 0 UDP/TLS/RTP/SAVPF 111 0\r\n\
+a=inactive\r\n\
+a=mid:1\r\n\
+m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
+b=AS:2000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtcp-fb:100 ccm fir\r\n\
+a=rtcp-fb:100 nack\r\n\
+a=rtcp-fb:100 nack pli\r\n\
+a=rtcp-fb:100 goog-remb\r\n\
+a=setup:active\r\n\
+a=mid:2\r\n\
+a=recvonly\r\n\
+a=rtcp-mux\r\n\
+a=ssrc:3423627266 cname:user1483941637@host-3c4150dc\r\n\
+a=ice-ufrag:l+rG\r\n\
+a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
+a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
+m=video 1 UDP/TLS/RTP/SAVPF 100 116 117 96\r\n\
+a=inactive\r\n\
+a=mid:3\r\n"
+
+  /*jshint multistr: true */
+  var expectedPlanB =
+   "v=0\r\n\
+o=- 3656853607 3656853607 IN IP4 0.0.0.0\r\n\
+s=Kurento Media Server\r\n\
+c=IN IP4 0.0.0.0\r\n\
+t=0 0\r\n\
+a=msid-semantic: WMS *\r\n\
+a=group:BUNDLE audio video\r\n\
+m=audio 1 UDP/TLS/RTP/SAVPF 111 0\r\n\
+a=rtpmap:111 opus/48000/2\r\n\
+a=rtpmap:0 PCMU/8000\r\n\
+a=fmtp:111 minptime=10; useinbandfec=1\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=setup:active\r\n\
+a=mid:audio\r\n\
+a=maxptime:60\r\n\
+a=recvonly\r\n\
+a=ice-ufrag:l+rG\r\n\
+a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
+a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
+a=ssrc:4147269654 cname:user1483941637@host-3c4150dc\r\n\
+a=rtcp-mux\r\n\
+m=video 1 UDP/TLS/RTP/SAVPF 100\r\n\
+b=AS:2000\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtcp:9 IN IP4 0.0.0.0\r\n\
+a=rtcp-fb:100 ccm fir\r\n\
+a=rtcp-fb:100 nack\r\n\
+a=rtcp-fb:100 nack pli\r\n\
+a=rtcp-fb:100 goog-remb\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=setup:active\r\n\
+a=mid:video\r\n\
+a=recvonly\r\n\
+a=ice-ufrag:l+rG\r\n\
+a=ice-pwd:Ab5LzP5Wn5dBfC6ct6Xhg3\r\n\
+a=fingerprint:sha-256 E7:70:CE:58:6A:CC:77:B0:B4:4B:F2:BC:7E:89:0D:69:E3:90:F3:7A:11:78:B1:5A:CD:E6:41:19:14:EB:56:49\r\n\
+a=ssrc:3423627266 cname:user1483941637@host-3c4150dc\r\n\
+a=rtcp-mux\r\n"
+
+  var interop = new Interop();
+
+  var answer = new RTCSessionDescription({
+    type: 'answer',
+    sdp: originUnifiedPlan
+  });
+
+  var planBDesc = interop.toPlanB(answer);
+  assert.equal(planBDesc.sdp, expectedPlanB,
+    "Not expected Plan B output")
+});
+
 QUnit.test('SafariUnifiedPlan2PlanB_1track', function (assert) {
   /*jshint multistr: true */
     var originUnifiedPlan =
@@ -917,7 +1113,7 @@ a=sctpmap:5000 webrtc-datachannel 1024\r\n";
 });
 
 
-/*QUnit.test('3-way-jitsi', function (assert) {
+QUnit.test('3-way-jitsi', function (assert) {
 
   var interop = new Interop();
 
@@ -984,4 +1180,4 @@ QUnit.test('2-way-jitsi', function (assert) {
       }
     };
   };
-});*/
+});
