@@ -176,21 +176,15 @@ remove an m-line, instead they must be marked as inactive, if they're no longer
 used.  Similar considerations have to be taken into account when converting a
 Plan B offer to a Unified Plan one when doing renegotiation, for example.
 
-We solved this issue by caching both the most recent Unified Plan offer and the
-most recent Unified Plan answer. When we go from Plan B to Unified Plan we use
-the cached Unified Plan offer/answer and add the missing information from
-there. You can see
-[here](https://github.com/jitsi/sdp-interop/blob/d4569a12875a7180004726633793430eccd7f47b/lib/interop.js#L175)
-how we do this exactly.
+We solved this issue by passing the current description set on the peerconnection
+when converting a Plan B offer to a Unified Plan offer.
 
 Another soft limitation (in the sense that it can be removed given enough
 effort) is that we require bundle and rtcp-mux for both Chrome and Firefox
 endpoints, so all the media whatever the channel is, go through a single port. This is tracked in [issue #3](https://github.com/jitsi/sdp-interop/issues/3).
 
-One last soft limitation is that we have currently tested the interoperability
-layer only when Firefox answers a call and not when it offers one because in
-our architecture endpoints always get invited to join a call and never offer
-one. This is tracked in [issue #4](https://github.com/jitsi/sdp-interop/issues/4).
+Firefox can also be the offerer, i.e., it can create an offer and send it to another
+client for establishing a peer-to-peer connection.
 
 ## Copyright notice
 
