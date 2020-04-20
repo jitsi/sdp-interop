@@ -2,7 +2,7 @@
   "name": "@jitsi/sdp-interop",
   "description": "A simple SDP interoperability layer for Unified Plan/Plan B",
   "author": "",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "stability": "unstable",
   "repository": {
     "type": "git",
