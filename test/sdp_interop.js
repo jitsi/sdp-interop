@@ -1112,6 +1112,167 @@ a=sctpmap:5000 webrtc-datachannel 1024\r\n";
     "Not expected Plan B output");
 });
 
+QUnit.test('FirefoxRtxEnabledNoVideoSource', function (assert) {
+  /*jshint multistr: true */
+    var originUnifiedPlan =
+    "v=0\r\n\
+o=mozilla...THIS_IS_SDPARTA-79.0a1 8030718751586222352 0 IN IP4 0.0.0.0\r\n\
+s=-\r\n\
+t=0 0\r\n\
+a=sendrecv\r\n\
+a=fingerprint:sha-256 3B:BF:F4:BC:2C:68:EE:3F:9F:50:15:5C:BA:38:06:E6:36:4A:B0:D2:C2:24:2E:A7:3F:85:33:36:E1:D9:BC:15\r\n\
+a=group:BUNDLE 0 1 2 3\r\n\
+a=ice-options:trickle\r\n\
+a=msid-semantic:WMS *\r\n\
+m=audio 53420 RTP/SAVPF 111 126\r\n\
+c=IN IP4 35.182.147.109\r\n\
+a=candidate:0 1 UDP 2122187007 192.168.1.17 57082 typ host\r\n\
+a=candidate:1 1 UDP 2122252543 fd4b:8d38:69ba:1:a195:ee30:e6af:43dd 57083 typ host\r\n\
+a=candidate:2 1 UDP 2122121471 67.86.67.86 57292 typ host\r\n\
+a=candidate:3 1 TCP 2105458943 192.168.1.17 9 typ host tcptype active\r\n\
+a=candidate:5 1 TCP 2105524479 fd4b:8d38:69ba:1:a195:ee30:e6af:43dd 9 typ host tcptype active\r\n\
+a=candidate:7 1 TCP 2105393407 67.86.67.86 9 typ host tcptype active\r\n\
+a=candidate:8 1 UDP 8200191 35.182.147.109 65514 typ relay raddr 35.182.147.109 rport 65514\r\n\
+a=candidate:4 1 UDP 8265727 35.182.147.109 53420 typ relay raddr 35.182.147.109 rport 53420\r\n\
+a=sendrecv\r\n\
+a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\n\
+a=fmtp:111 maxplaybackrate=48000;stereo=1;useinbandfec=1\r\n\
+a=fmtp:126 0-15\r\n\
+a=ice-pwd:606332a05e30890cccfd9327d6a47fbb\r\n\
+a=ice-ufrag:3552f53c\r\n\
+a=mid:0\r\n\
+a=msid:{1e2f74ed-bfeb-424f-b303-05f62227f4bf} {a88d1b28-c41a-584e-83f9-9775bbe7de23}\r\n\
+a=rtcp-mux\r\n\
+a=rtpmap:111 opus/48000/2\r\n\
+a=rtpmap:126 telephone-event/8000\r\n\
+a=setup:active\r\n\
+a=ssrc:4225776329 cname:{7cfe3dc6-24f5-c04d-8080-9fdce6db1ee4}\r\n\
+m=audio 53420 RTP/SAVPF 111 126\r\n\
+c=IN IP4 35.182.147.109\r\n\
+a=recvonly\r\n\
+a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\n\
+a=fmtp:111 maxplaybackrate=48000;stereo=1;useinbandfec=1\r\n\
+a=fmtp:126 0-15\r\n\
+a=ice-pwd:606332a05e30890cccfd9327d6a47fbb\r\n\
+a=ice-ufrag:3552f53c\r\n\
+a=mid:1\r\n\
+a=rtcp-mux\r\n\
+a=rtpmap:111 opus/48000/2\r\n\
+a=rtpmap:126 telephone-event/8000\r\n\
+a=setup:active\r\n\
+a=ssrc:2836214121 cname:{7cfe3dc6-24f5-c04d-8080-9fdce6db1ee4}\r\n\
+m=video 53420 RTP/SAVPF 100 96\r\n\
+c=IN IP4 35.182.147.109\r\n\
+a=recvonly\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=extmap:5 http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01\r\n\
+a=fmtp:100 max-fs=12288;max-fr=60\r\n\
+a=fmtp:96 apt=100\r\n\
+a=ice-pwd:606332a05e30890cccfd9327d6a47fbb\r\n\
+a=ice-ufrag:3552f53c\r\n\
+a=mid:2\r\n\
+a=rtcp-fb:100 nack\r\n\
+a=rtcp-fb:100 nack pli\r\n\
+a=rtcp-fb:100 ccm fir\r\n\
+a=rtcp-fb:100 goog-remb\r\n\
+a=rtcp-fb:100 transport-cc\r\n\
+a=rtcp-mux\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtpmap:96 rtx/90000\r\n\
+a=setup:active\r\n\
+a=ssrc:3246174155 cname:{7cfe3dc6-24f5-c04d-8080-9fdce6db1ee4}\r\n\
+a=ssrc:774715923 cname:{7cfe3dc6-24f5-c04d-8080-9fdce6db1ee4}\r\n\
+a=ssrc-group:FID 3246174155 774715923\r\n\
+m=video 53420 RTP/SAVPF 100 96\r\n\
+c=IN IP4 35.182.147.109\r\n\
+a=recvonly\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=extmap:5 http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01\r\n\
+a=fmtp:100 max-fs=12288;max-fr=60\r\n\
+a=fmtp:96 apt=100\r\n\
+a=ice-pwd:606332a05e30890cccfd9327d6a47fbb\r\n\
+a=ice-ufrag:3552f53c\r\n\
+a=mid:3\r\n\
+a=rtcp-fb:100 nack\r\n\
+a=rtcp-fb:100 nack pli\r\n\
+a=rtcp-fb:100 ccm fir\r\n\
+a=rtcp-fb:100 goog-remb\r\n\
+a=rtcp-fb:100 transport-cc\r\n\
+a=rtcp-mux\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtpmap:96 rtx/90000\r\n\
+a=setup:active\r\n\
+a=ssrc:612176610 cname:{7cfe3dc6-24f5-c04d-8080-9fdce6db1ee4}\r\n\
+a=ssrc:1076430124 cname:{7cfe3dc6-24f5-c04d-8080-9fdce6db1ee4}\r\n\
+a=ssrc-group:FID 612176610 1076430124";
+
+  /*jshint multistr: true */
+    var expectedPlanB =
+    "v=0\r\n\
+o=mozilla...THIS_IS_SDPARTA-79.0a1 8030718751586222352 0 IN IP4 0.0.0.0\r\n\
+s=-\r\n\
+t=0 0\r\n\
+a=sendrecv\r\n\
+a=fingerprint:sha-256 3B:BF:F4:BC:2C:68:EE:3F:9F:50:15:5C:BA:38:06:E6:36:4A:B0:D2:C2:24:2E:A7:3F:85:33:36:E1:D9:BC:15\r\n\
+a=ice-options:trickle\r\n\
+a=msid-semantic: WMS *\r\n\
+a=group:BUNDLE audio video\r\n\
+m=audio 53420 RTP/SAVPF 111 126\r\n\
+c=IN IP4 35.182.147.109\r\n\
+a=rtpmap:111 opus/48000/2\r\n\
+a=rtpmap:126 telephone-event/8000\r\n\
+a=fmtp:111 maxplaybackrate=48000;stereo=1;useinbandfec=1\r\n\
+a=fmtp:126 0-15\r\n\
+a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\n\
+a=setup:active\r\n\
+a=mid:audio\r\n\
+a=sendrecv\r\n\
+a=ice-ufrag:3552f53c\r\n\
+a=ice-pwd:606332a05e30890cccfd9327d6a47fbb\r\n\
+a=candidate:0 1 UDP 2122187007 192.168.1.17 57082 typ host\r\n\
+a=candidate:1 1 UDP 2122252543 fd4b:8d38:69ba:1:a195:ee30:e6af:43dd 57083 typ host\r\n\
+a=candidate:2 1 UDP 2122121471 67.86.67.86 57292 typ host\r\n\
+a=candidate:3 1 TCP 2105458943 192.168.1.17 9 typ host tcptype active\r\n\
+a=candidate:5 1 TCP 2105524479 fd4b:8d38:69ba:1:a195:ee30:e6af:43dd 9 typ host tcptype active\r\n\
+a=candidate:7 1 TCP 2105393407 67.86.67.86 9 typ host tcptype active\r\n\
+a=candidate:8 1 UDP 8200191 35.182.147.109 65514 typ relay raddr 35.182.147.109 rport 65514\r\n\
+a=candidate:4 1 UDP 8265727 35.182.147.109 53420 typ relay raddr 35.182.147.109 rport 53420\r\n\
+a=ssrc:4225776329 cname:{7cfe3dc6-24f5-c04d-8080-9fdce6db1ee4}\r\n\
+a=ssrc:4225776329 msid:{1e2f74ed-bfeb-424f-b303-05f62227f4bf} {a88d1b28-c41a-584e-83f9-9775bbe7de23}\r\n\
+a=rtcp-mux\r\n\
+m=video 53420 RTP/SAVPF 100 96\r\n\
+c=IN IP4 35.182.147.109\r\n\
+a=rtpmap:100 VP8/90000\r\n\
+a=rtpmap:96 rtx/90000\r\n\
+a=fmtp:100 max-fs=12288;max-fr=60\r\n\
+a=fmtp:96 apt=100\r\n\
+a=rtcp-fb:100 nack\r\n\
+a=rtcp-fb:100 nack pli\r\n\
+a=rtcp-fb:100 ccm fir\r\n\
+a=rtcp-fb:100 goog-remb\r\n\
+a=rtcp-fb:100 transport-cc\r\n\
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n\
+a=extmap:5 http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01\r\n\
+a=setup:active\r\n\
+a=mid:video\r\n\
+a=recvonly\r\n\
+a=ice-ufrag:3552f53c\r\n\
+a=ice-pwd:606332a05e30890cccfd9327d6a47fbb\r\n\
+a=ssrc:3246174155 cname:{7cfe3dc6-24f5-c04d-8080-9fdce6db1ee4}\r\n\
+a=ssrc:774715923 cname:{7cfe3dc6-24f5-c04d-8080-9fdce6db1ee4}\r\n\
+a=rtcp-mux\r\n";
+
+  var interop = new Interop();
+
+  var offer = new RTCSessionDescription({
+    type: 'offer',
+    sdp: originUnifiedPlan
+  });
+
+  var planBDesc = interop.toPlanB(offer);
+  assert.equal(planBDesc.sdp, expectedPlanB,
+    "Not expected Plan B output");
+});
 
 QUnit.test('3-way-jitsi', function (assert) {
 
