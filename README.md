@@ -84,11 +84,13 @@ PeerConnection adapter...
 Here's a sample PeerConnection adapter:
 
 ```javascript
+const { Interop } = require('sdp-interop')
+
 function PeerConnectionAdapter(ice_config, constraints) {
     var RTCPeerConnection = navigator.mozGetUserMedia
       ? mozRTCPeerConnection : webkitRTCPeerConnection;
     this.peerconnection = new RTCPeerConnection(ice_config, constraints);
-    this.interop = new require('sdp-interop').Interop();
+    this.interop = new Interop();
 }
 
 PeerConnectionAdapter.prototype.setLocalDescription
