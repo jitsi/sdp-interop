@@ -18,8 +18,6 @@
   "main": "./lib/",
   "scripts": {
     "test": "node $NODE_DEBUG_OPTION --experimental-modules test/sdp_interop.js",
-    "coverage": "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
-    "coveralls": "npm run coverage | coveralls",
     "lint": "eslint .",
     "validate": "npm ls"
   },
@@ -29,12 +27,10 @@
   },
   "devDependencies": {
     "babel-eslint": "10.1.0",
-    "coveralls": "3.0.11",
     "eslint": "6.8.0",
     "eslint-config-jitsi": "github:jitsi/eslint-config-jitsi#1.0.0",
     "eslint-plugin-flowtype": "4.7.0",
     "eslint-plugin-import": "2.20.2",
-    "jscoverage": "0.6.0",
     "precommit-hook": "3.0.0",
     "qunit-cli": "0.2.0"
   },
