@@ -23,14 +23,14 @@
   },
   "dependencies": {
     "lodash.clonedeep": "4.5.0",
-    "sdp-transform": "2.3.0"
+    "sdp-transform": "2.14.1"
   },
   "devDependencies": {
     "babel-eslint": "10.1.0",
-    "eslint": "6.8.0",
-    "eslint-config-jitsi": "github:jitsi/eslint-config-jitsi#1.0.0",
-    "eslint-plugin-flowtype": "4.7.0",
-    "eslint-plugin-import": "2.20.2",
+    "eslint": "7.27.0",
+    "eslint-config-jitsi": "github:jitsi/eslint-config-jitsi#1.0.3",
+    "eslint-plugin-flowtype": "5.7.2",
+    "eslint-plugin-import": "2.23.4",
     "precommit-hook": "3.0.0",
     "qunit-cli": "0.2.0"
   },
